@@ -6,9 +6,6 @@ on:
       arch:
         required: true
         type: string
-      release:
-        required: true
-        type: boolean
 
 jobs:
   build_job_01:
@@ -33,24 +30,26 @@ jobs:
           cat src.txt >> built_${{ inputs.arch }}.txt
           echo "\narch = ${{ inputs.arch }}" >> built_${{ inputs.arch }}.txt
           echo "\nbuilding 01" >> built_${{ inputs.arch }}.txt
-      - name: Create Release
-        if: ${{ inputs.release && github.event_name != 'pull_request' }}
-        uses: ncipollo/release-action@v1.13.0
+      - name: Upload built
+        uses: actions/upload-artifact@v4
         with:
-          artifacts: built_${{ inputs.arch }}.txt
-          tag: ${{ github.ref }}_release
-          name: |
-            ${{ github.ref }} release
-          body: |
-            ${{ github.ref }} release body
-          draft: false
-          prerelease: false
-          allowUpdates: true
+          name: built
+          path: built_${{ inputs.arch }}.txt
 
   build_job_02:
     name: Continue Building Ungoogled-Chromium for macOS
     runs-on: macos-13
     needs: build_job_01
     steps:
-      - name: Just a test
-        run: echo "test"
+      - name: Download built
+        uses: actions/download-artifact@v4
+        with:
+            name: built
+      - name: Continue build
+        run: |
+          echo "\nbuilding 02" >> built_${{ inputs.arch }}.txt
+      - name: Upload built
+        uses: actions/upload-artifact@v4
+        with:
+          name: built
+          path: built_${{ inputs.arch }}.txt

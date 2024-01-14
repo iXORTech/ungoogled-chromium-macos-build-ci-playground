@@ -28,4 +28,24 @@ jobs:
     uses: ./.github/workflows/building.yml
     with:
       arch: ${{ matrix.arch }}
-      release: ${{ github.event_name == 'push' && contains(github.ref, 'refs/tags/') }}
+
+  release:
+    needs: build
+    name: Release macOS binaries of Ungoogled Chromium
+    runs-on: macos-latest
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    steps:
+      - name: Download built
+        uses: actions/download-artifact@v4
+        with:
+            name: built
+      - name: Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ github.ref }}_release
+          name: ${{ github.ref }} release
+          draft: false
+          prerelease: false
+          files: built_*.txt

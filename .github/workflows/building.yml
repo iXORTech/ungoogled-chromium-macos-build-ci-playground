@@ -1,0 +1,27 @@
+name: Building macOS binaries of Ungoogled Chromium
+
+on:
+  workflow_call:
+    inputs:
+      arch:
+        required: true
+        type: string
+      release:
+        required: true
+        type: boolean
+
+jobs:
+  build_job_01:
+    name: Start Building Ungoogled-Chromium for macOS
+    runs-on: macos-13
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - name: Download source
+        uses: actions/download-artifact@v4
+        with:
+            name: source
+      - name: Display structure of downloaded files
+        run: ls -R
+      - name: Show source
+        run: cat src.txt

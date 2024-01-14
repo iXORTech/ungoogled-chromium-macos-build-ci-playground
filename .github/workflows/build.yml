@@ -35,14 +35,10 @@ jobs:
     runs-on: macos-latest
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     steps:
-      - name: Download x86_64 built
+      - name: Download built
         uses: actions/download-artifact@v3
         with:
-            name: built_x86_64
-      - name: Download arm64 built
-        uses: actions/download-artifact@v3
-        with:
-            name: built_arm64
+            name: built
       - name: Release
         id: create_release
         uses: softprops/action-gh-release@v1

@@ -33,7 +33,7 @@ jobs:
       - name: Upload built
         uses: actions/upload-artifact@v3
         with:
-          name: built_${{ inputs.arch }}
+          name: built
           path: built_${{ inputs.arch }}.txt
 
   build_job_02:
@@ -44,12 +44,12 @@ jobs:
       - name: Download built
         uses: actions/download-artifact@v3
         with:
-            name: built_${{ inputs.arch }}
+            name: built
       - name: Continue build
         run: |
           echo "\nbuilding 02" >> built_${{ inputs.arch }}.txt
       - name: Upload built
         uses: actions/upload-artifact@v3
         with:
-          name: built_${{ inputs.arch }}
+          name: built
           path: built_${{ inputs.arch }}.txt

@@ -51,5 +51,5 @@ jobs:
       - name: Upload built
         uses: actions/upload-artifact@v4
         with:
-          name: built
+          name: built_${{ inputs.arch }}
           path: built_${{ inputs.arch }}.txt

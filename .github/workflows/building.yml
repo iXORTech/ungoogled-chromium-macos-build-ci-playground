@@ -45,6 +45,7 @@ jobs:
             ${{ github.ref }} release body
           draft: false
           prerelease: false
+          allowUpdates: true
 
   build_job_02:
     name: Continue Building Ungoogled-Chromium for macOS

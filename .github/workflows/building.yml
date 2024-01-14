@@ -34,7 +34,7 @@ jobs:
           echo "\narch = ${{ inputs.arch }}" >> built_${{ inputs.arch }}.txt
           echo "\nbuilding 01" >> built_${{ inputs.arch }}.txt
       - name: Create Release
-        if: ${{ inputs.release && steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
+        if: ${{ inputs.release && github.event_name != 'pull_request' }}
         uses: softprops/action-gh-release@v1
         with:
           files: built_${{ inputs.arch }}.txt
@@ -43,3 +43,11 @@ jobs:
             ${{ github.ref }} release
           draft: false
           prerelease: false
+
+  build_job_02:
+    name: Continue Building Ungoogled-Chromium for macOS
+    runs-on: macos-13
+    needs: build_job_01
+    steps:
+      - name: Just a test
+        run: echo "test"

@@ -12,7 +12,7 @@ jobs:
         run: |
           echo "source" > src.txt
       - name: Upload source
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: source
           path: src.txt
@@ -36,11 +36,11 @@ jobs:
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     steps:
       - name: Download x86_64 built
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
             name: built_x86_64
       - name: Download arm64 built
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
             name: built_arm64
       - name: Release

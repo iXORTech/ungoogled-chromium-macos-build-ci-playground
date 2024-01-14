@@ -35,12 +35,14 @@ jobs:
           echo "\nbuilding 01" >> built_${{ inputs.arch }}.txt
       - name: Create Release
         if: ${{ inputs.release && github.event_name != 'pull_request' }}
-        uses: softprops/action-gh-release@v1
+        uses: ncipollo/release-action@v1.13.0
         with:
-          files: built_${{ inputs.arch }}.txt
-          tag_name: ${{ github.ref }}_release
-          body: |
+          artifacts: built_${{ inputs.arch }}.txt
+          tag: ${{ github.ref }}_release
+          name: |
             ${{ github.ref }} release
+          body: |
+            ${{ github.ref }} release body
           draft: false
           prerelease: false
 

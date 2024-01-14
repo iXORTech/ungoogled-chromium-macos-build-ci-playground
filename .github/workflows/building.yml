@@ -25,3 +25,19 @@ jobs:
         run: ls -R
       - name: Show source
         run: cat src.txt
+      - name: Build
+        id: build
+        run: |
+          cat src.txt >> built_${{ inputs.arch }}.txt
+          echo "\narch = ${{ inputs.arch }}" >> built_${{ inputs.arch }}.txt
+          echo "\nbuilding 01" >> built_${{ inputs.arch }}.txt
+      - name: Create Release
+        if: ${{ inputs.release && steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
+        uses: softprops/action-gh-release@v1
+        with:
+          files: built_${{ inputs.arch }}.txt
+          tag_name: ${{ github.ref }}
+          body: |
+            ${{ github.ref }} release
+          draft: false
+          prerelease: false

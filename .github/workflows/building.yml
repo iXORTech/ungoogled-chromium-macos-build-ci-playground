@@ -38,7 +38,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: built_${{ inputs.arch }}.txt
-          tag_name: ${{ github.ref }}
+          tag_name: ${{ github.ref }}_release
           body: |
             ${{ github.ref }} release
           draft: false
